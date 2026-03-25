@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | PulseBoard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div class="noise-overlay"></div>
+    <div class="liquid-orb one"></div>
+    <div class="liquid-orb two"></div>
+
+    <main class="relative z-10 min-h-screen px-4 py-8 md:px-10">
+        <div class="mx-auto flex w-full max-w-6xl flex-col gap-6">
+            <nav class="glass-soft fade-in sticky top-4 z-20 flex flex-col gap-3 rounded-2xl px-4 py-3 md:flex-row md:items-center md:justify-between md:px-6">
+                <div>
+                    <p class="text-sm text-slate-300">Signed in as</p>
+                    <h1 class="text-xl font-bold text-slate-100 md:text-2xl">@<%= user.username %></h1>
+                </div>
+                <div class="flex flex-wrap items-center gap-2">
+                    <span class="stat-chip">Posts: <%= user.posts.length %></span>
+                    <span class="stat-chip">Email: <%= user.email %></span>
+                    <a href="/logout" class="btn-danger text-sm">Logout</a>
+                </div>
+            </nav>
+
+            <section class="grid gap-6 md:grid-cols-[1fr,1.3fr]">
+                <aside class="glass-panel fade-in rounded-3xl p-6 md:p-8">
+                    <h2 class="text-2xl font-bold text-slate-50">Create new post</h2>
+                    <p class="mt-2 text-sm text-slate-300">Share a quick update with your followers.</p>
+
+                    <form action="/post" method="post" class="mt-4 space-y-4">
+                        <label class="block">
+                            <span class="mb-1.5 block text-sm font-medium text-slate-200">Post content</span>
+                            <textarea class="ui-textarea" name="content" placeholder="What is on your mind today?" required></textarea>
+                        </label>
+                        <button type="submit" class="btn-primary w-full">Publish post</button>
+                    </form>
+
+                    <div class="mt-5 rounded-xl border border-white/20 bg-white/10 p-3 text-sm text-slate-300">
+                        You can edit your posts later from the feed section.
+                    </div>
+                </aside>
+
+                <section class="space-y-4">
+                    <header class="glass-soft fade-in flex items-center justify-between rounded-2xl px-4 py-3">
+                        <h3 class="text-lg font-semibold text-slate-100 md:text-xl">Your feed</h3>
+                        <span class="stat-chip"><%= user.posts.length %> total posts</span>
+                    </header>
+
+                    <% if (!user.posts.length) { %>
+                        <div class="glass-panel fade-in rounded-2xl p-6 text-center">
+                            <h4 class="text-lg font-semibold text-slate-100">No posts yet</h4>
+                            <p class="mt-2 text-sm text-slate-300">Create your first post from the panel on the left and start building your feed.</p>
+                        </div>
+                    <% } %>
+
+                    <div class="grid gap-4 md:grid-cols-2">
+                        <% [...user.posts].reverse().forEach(post => { %>
+                            <article class="post-card fade-in">
+                                <div class="mb-3 flex items-center justify-between">
+                                    <h4 class="font-semibold text-cyan-100">@<%= user.username %></h4>
+                                    <span class="rounded-full border border-cyan-200/30 bg-cyan-100/10 px-2 py-0.5 text-xs text-cyan-100"><%= post.likes.length %> likes</span>
+                                </div>
+
+                                <p class="mb-4 whitespace-pre-line text-sm leading-relaxed text-slate-200"><%= post.content %></p>
+
+                                <div class="flex items-center gap-2 text-sm">
+                                    <a class="btn-secondary" href="/like/<%= post._id %>">
+                                        <%= post.likes.indexOf(user._id) === -1 ? 'Like' : 'Unlike' %>
+                                    </a>
+                                    <a class="btn-secondary btn-edit" href="/edit/<%= post._id %>">Edit</a>
+                                </div>
+                            </article>
+                        <% }) %>
+                    </div>
+                </section>
+            </section>
+        </div>
+    </main>
+</body>
+</html>

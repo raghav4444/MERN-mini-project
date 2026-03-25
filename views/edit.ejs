@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Post | PulseBoard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="noise-overlay"></div>
+    <div class="liquid-orb one"></div>
+    <div class="liquid-orb two"></div>
+
+    <main class="relative z-10 min-h-screen px-4 py-8 md:px-10">
+      <div class="mx-auto flex w-full max-w-4xl flex-col gap-6">
+        <nav
+          class="glass-soft fade-in flex items-center justify-between rounded-2xl px-4 py-3 md:px-6"
+        >
+          <h1 class="text-lg font-semibold text-slate-100 md:text-xl">
+            Edit your post
+          </h1>
+          <div class="flex items-center gap-2">
+            <a href="/profile" class="btn-secondary text-sm">Back to profile</a>
+            <a href="/logout" class="btn-danger text-sm">Logout</a>
+          </div>
+        </nav>
+
+        <section class="glass-panel fade-in rounded-3xl p-6 md:p-8">
+          <p
+            class="mb-2 inline-block rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs text-slate-200"
+          >
+            Post Editor
+          </p>
+          <h2 class="text-2xl font-bold text-slate-50">Update content</h2>
+          <p class="mt-2 text-sm text-slate-300">
+            Make your changes and save to publish the updated version in your
+            feed.
+          </p>
+
+          <form
+            action="/edit/<%= post._id %>"
+            method="post"
+            class="mt-5 space-y-4"
+          >
+            <label class="block">
+              <span class="mb-1.5 block text-sm font-medium text-slate-200"
+                >Post body</span
+              >
+              <textarea
+                class="ui-textarea"
+                name="content"
+                placeholder="Write your updated post..."
+                required
+              >
+<%= post.content %></textarea
+              >
+            </label>
+            <div class="flex flex-wrap items-center gap-2">
+              <button type="submit" class="btn-primary">Save changes</button>
+              <a href="/profile" class="btn-secondary">Cancel</a>
+            </div>
+          </form>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
