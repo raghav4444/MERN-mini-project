@@ -196,8 +196,3 @@ Current code uses:
 
 For production, move these to environment variables and use a `.env` setup.
 
----
-If you want, I can also add:
-1. Proper npm scripts (`start`, `dev`)
-2. `.env` support for MongoDB URL and JWT secret
-3. A production-ready configuration section in this README
