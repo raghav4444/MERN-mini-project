@@ -20,7 +20,12 @@
             <nav class="glass-soft fade-in sticky top-4 z-20 flex flex-col gap-3 rounded-2xl px-4 py-3 md:flex-row md:items-center md:justify-between md:px-6">
                 <div>
                     <p class="text-sm text-slate-300">Signed in as</p>
-                    <h1 class="text-xl font-bold text-slate-100 md:text-2xl">@<%= user.username %></h1>
+                    <div class="mt-1 flex items-center gap-2">
+                        <div class="w-10 h-10 rounded-full inline-block overflow-hidden">
+                            <img class="w-full h-full object-cover rounded-full" src="/images/uploads/<%= user.profilePic %>" alt="profilepic">
+                        </div>
+                        <h1 class="text-xl font-bold text-slate-100 md:text-xl">@<%= user.username %></h1>
+                    </div>
                 </div>
                 <div class="flex flex-wrap items-center gap-2">
                     <span class="stat-chip">Posts: <%= user.posts.length %></span>

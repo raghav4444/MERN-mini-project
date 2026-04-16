@@ -3,7 +3,7 @@ const app = express();
 
 const jwt = require('jsonwebtoken');
 
-const path = require('path');
+const path = require('path'); 
 const cookieParser = require('cookie-parser');
 const ejs = require('ejs');
 const userModel = require('./models/user');
@@ -11,19 +11,39 @@ const bcrypt = require('bcrypt');
 const { log } = require('console');
 const postModel = require('./models/post');
 
+const upload = require('./config/multerconfig');
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json()); 
-
 app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.get('/', (req, res) => {
     res.render('index');
 });
+
+app.get("/profile/upload", (req, res) => {
+    res.render('profileupload');
+});
+
+app.post("/upload",isLoggenIn, upload.single("image"), async(req, res) => {
+    const user = await userModel.findOne({email: req.user.email});
+    user.profilePic = req.file.filename;
+    await user.save();
+    res.redirect('/profile');
+});
+
+// app.get('/test', (req, res) => {
+//     res.render('test');
+// });
+// app.post('/upload', upload.single('image'), (req, res) => {
+//     console.log(req.file);
+//     res.render('test');
+// });
 
 app.post('/create', (req, res) => {
     let { username, password, email, age } = req.body;
